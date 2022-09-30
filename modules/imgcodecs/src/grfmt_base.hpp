@@ -7,7 +7,7 @@
 
 #include "utils.hpp"
 #include "bitstrm.hpp"
-#include "exif.hpp"
+#include <opencv2/imgcodecs/exif.hpp>
 
 namespace cv
 {
@@ -70,6 +70,8 @@ public:
      * @return The EXIF entry corresponding to the tag.
      */
     ExifEntry_t getExifTag(const ExifTagName tag) const;
+
+    const ExifReader& getExifReader() const { return m_exif; }
 
     /**
      * @brief Set the image source from a file.

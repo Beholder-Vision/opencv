@@ -175,6 +175,12 @@ public:
      */
     ExifEntry_t getTag( const ExifTagName tag ) const;
 
+    /**
+     * @brief Get the EXIF data buffer
+     * 
+     * @return Read only EXIF data buffer
+     */
+    const std::vector<unsigned char>& getData() const { return m_data; }
 
 private:
     std::vector<unsigned char> m_data;

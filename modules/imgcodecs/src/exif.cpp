@@ -41,7 +41,7 @@
 //M*/
 
 #include "precomp.hpp"
-#include "exif.hpp"
+#include <opencv2/imgcodecs/exif.hpp>
 
 namespace {
 

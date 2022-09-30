@@ -44,6 +44,7 @@
 #define OPENCV_IMGCODECS_HPP
 
 #include "opencv2/core.hpp"
+#include <opencv2/imgcodecs/exif.hpp>
 
 /**
   @defgroup imgcodecs Image file reading and writing
@@ -266,10 +267,11 @@ Currently, the following file formats are supported:
 -   By default, the number of pixels must be less than 2^30. This limit can be changed by setting
     the environment variable `OPENCV_IO_MAX_IMAGE_PIXELS`. See @ref tutorial_env_reference.
 
-@param filename Name of the file to be loaded.
-@param flags Flag that can take values of `cv::ImreadModes`.
+@param filename Name of file to be loaded.
+@param flags Flag that can take values of cv::ImreadModes
+@param exifReader Optional pointer to an ExifReader object that can be used to return EXIF data from the loaded image
 */
-CV_EXPORTS_W Mat imread( const String& filename, int flags = IMREAD_COLOR_BGR );
+CV_EXPORTS_W Mat imread( const String& filename, int flags = IMREAD_COLOR_BGR, CV_OUT ExifReader* exifReader = nullptr );
 
 /** @brief Loads an image from a file.
 
@@ -277,10 +279,11 @@ This is an overloaded member function, provided for convenience. It differs from
 @param filename Name of file to be loaded.
 @param dst object in which the image will be loaded.
 @param flags Flag that can take values of cv::ImreadModes
+@param exifReader Optional pointer to an ExifReader object that can be used to return EXIF data from the loaded image
 @note
 The image passing through the img parameter can be pre-allocated. The memory is reused if the shape and the type match with the load image.
  */
-CV_EXPORTS_W void imread( const String& filename, OutputArray dst, int flags = IMREAD_COLOR_BGR );
+CV_EXPORTS_W void imread( const String& filename, OutputArray dst, int flags = IMREAD_COLOR_BGR, CV_OUT ExifReader* exifReader = nullptr );
 
 /** @brief Loads a multi-page image from a file.
 

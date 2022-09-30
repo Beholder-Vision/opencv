@@ -111,7 +111,6 @@ list(APPEND grfmt_hdrs ${CMAKE_CURRENT_LIST_DIR}/src/bitstrm.hpp)
 list(APPEND grfmt_srcs ${CMAKE_CURRENT_LIST_DIR}/src/bitstrm.cpp)
 list(APPEND grfmt_hdrs ${CMAKE_CURRENT_LIST_DIR}/src/rgbe.hpp)
 list(APPEND grfmt_srcs ${CMAKE_CURRENT_LIST_DIR}/src/rgbe.cpp)
-list(APPEND grfmt_hdrs ${CMAKE_CURRENT_LIST_DIR}/src/exif.hpp)
 list(APPEND grfmt_srcs ${CMAKE_CURRENT_LIST_DIR}/src/exif.cpp)
 
 source_group("Src\\grfmts" FILES ${grfmt_hdrs} ${grfmt_srcs})

@@ -46,7 +46,7 @@
 #include "precomp.hpp"
 #include "grfmts.hpp"
 #include "utils.hpp"
-#include "exif.hpp"
+#include <opencv2/imgcodecs/exif.hpp>
 #undef min
 #undef max
 #include <iostream>
@@ -401,10 +401,11 @@ static void ApplyExifOrientation(ExifEntry_t orientationTag, OutputArray img)
  * @param[in] filename File to load
  * @param[in] flags Flags
  * @param[in] mat Reference to C++ Mat object (If LOAD_MAT)
+ * @param[out] exifReader Pointer to ExifReader to fill with ExifData
  *
 */
 static bool
-imread_( const String& filename, int flags, OutputArray mat )
+imread_( const String& filename, int flags, OutputArray mat, ExifReader* exifReader )
 {
     /// Search for the relevant decoder to handle the imagery
     ImageDecoder decoder;
@@ -517,6 +518,11 @@ imread_( const String& filename, int flags, OutputArray mat )
     if (!mat.empty() && (flags & IMREAD_IGNORE_ORIENTATION) == 0 && flags != IMREAD_UNCHANGED )
     {
         ApplyExifOrientation(decoder->getExifTag(ORIENTATION), mat);
+    }
+
+    if (exifReader)
+    {
+        *exifReader = decoder->getExifReader();
     }
 
     return true;
@@ -637,8 +643,9 @@ imreadmulti_(const String& filename, int flags, std::vector<Mat>& mats, int star
  *
  * @param[in] filename File to load
  * @param[in] flags Flags you wish to set.
+ * @param[out] exifReader Pointer to ExifReader to fill with ExifData
 */
-Mat imread( const String& filename, int flags )
+Mat imread( const String& filename, int flags, ExifReader* exifReader )
 {
     CV_TRACE_FUNCTION();
 
@@ -646,18 +653,18 @@ Mat imread( const String& filename, int flags )
     Mat img;
 
     /// load the data
-    imread_( filename, flags, img );
+    imread_( filename, flags, img, exifReader );
 
     /// return a reference to the data
     return img;
 }
 
-void imread( const String& filename, OutputArray dst, int flags )
+void imread( const String& filename, OutputArray dst, int flags, ExifReader* exifReader )
 {
     CV_TRACE_FUNCTION();
 
     /// load the data
-    imread_(filename, flags, dst);
+    imread_(filename, flags, dst, exifReader);
 }
 
 /**
