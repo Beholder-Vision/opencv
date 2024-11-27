@@ -378,8 +378,9 @@ See cv::imread for the list of supported formats and flags description.
 @note In the case of color images, the decoded images will have the channels stored in **B G R** order.
 @param buf Input array or vector of bytes.
 @param flags The same flags as in cv::imread, see cv::ImreadModes.
+@param exifReader Optional pointer to an ExifReader object that can be used to return EXIF data from the loaded image
 */
-CV_EXPORTS_W Mat imdecode( InputArray buf, int flags );
+CV_EXPORTS_W Mat imdecode( InputArray buf, int flags, CV_OUT ExifReader* exifReader = nullptr );
 
 /** @overload
 @param buf Input array or vector of bytes.
@@ -387,8 +388,9 @@ CV_EXPORTS_W Mat imdecode( InputArray buf, int flags );
 @param dst The optional output placeholder for the decoded matrix. It can save the image
 reallocations when the function is called repeatedly for images of the same size. In case of decoder
 failure the function returns empty cv::Mat object, but does not release user-provided dst buffer.
+@param exifReader Optional pointer to an ExifReader object that can be used to return EXIF data from the loaded image
 */
-CV_EXPORTS Mat imdecode( InputArray buf, int flags, Mat* dst);
+CV_EXPORTS Mat imdecode( InputArray buf, int flags, Mat* dst, CV_OUT ExifReader* exifReader = nullptr );
 
 /** @brief Reads a multi-page image from a buffer in memory.
 

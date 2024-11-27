@@ -809,7 +809,7 @@ bool imwrite( const String& filename, InputArray _img,
 }
 
 static bool
-imdecode_( const Mat& buf, int flags, Mat& mat )
+imdecode_( const Mat& buf, int flags, Mat& mat, ExifReader* exifReader )
 {
     CV_Assert(!buf.empty());
     CV_Assert(buf.isContinuous());
@@ -934,28 +934,33 @@ imdecode_( const Mat& buf, int flags, Mat& mat )
         ApplyExifOrientation(decoder->getExifTag(ORIENTATION), mat);
     }
 
+    if (exifReader)
+    {
+        *exifReader = decoder->getExifReader();
+    }
+
     return true;
 }
 
 
-Mat imdecode( InputArray _buf, int flags )
+Mat imdecode( InputArray _buf, int flags, ExifReader* exifReader )
 {
     CV_TRACE_FUNCTION();
 
     Mat buf = _buf.getMat(), img;
-    if (!imdecode_(buf, flags, img))
+    if (!imdecode_(buf, flags, img, exifReader))
         img.release();
 
     return img;
 }
 
-Mat imdecode( InputArray _buf, int flags, Mat* dst )
+Mat imdecode( InputArray _buf, int flags, Mat* dst, ExifReader* exifReader )
 {
     CV_TRACE_FUNCTION();
 
     Mat buf = _buf.getMat(), img;
     dst = dst ? dst : &img;
-    if (imdecode_(buf, flags, *dst))
+    if (imdecode_(buf, flags, *dst, exifReader))
         return *dst;
     else
         return cv::Mat();
